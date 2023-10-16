@@ -2,14 +2,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 class SymbolTable<T> {
+    //Fields
     private final int size;
     private ArrayList<ArrayList<String>> symTbl;
 
-    public SymbolTable() {
-        this.size = 100;
+    //Methods
+    public SymbolTable(int size) {
+        this.size = size;
         this.symTbl = new ArrayList<>(size);
 
-        for (int i = 0; i < size; i++)
+        for (int index = 0; index < size; index++)
             symTbl.add(new ArrayList<>());
     }
 
@@ -17,42 +19,42 @@ class SymbolTable<T> {
         return this.size;
     }
 
-    public void add(String var) {
-        int hashCode = hashCode(var);
+    public int[] add(String variableName) {
+        int hashCode = hashCode(variableName);
         while (symTbl.size() <= hashCode)
             symTbl.add(new ArrayList<>());
 
-        symTbl.get(hashCode).add(var);
+        symTbl.get(hashCode).add(variableName);
+        return search(variableName);
     }
 
-    public int[] search(String var) {
-        int hashCode = hashCode(var);
-        int i = 0;
+    public int[] search(String variableName) {
+        int hashCode = hashCode(variableName);
+        int index = 0;
 
-        while(!Objects.equals(symTbl.get(hashCode).get(i), var))
-            i++;
+        while(!Objects.equals(symTbl.get(hashCode).get(index), variableName))
+            index++;
 
-        return new int[]{hashCode, i};
+        return new int[]{hashCode, index};
     }
 
-    public int hashCode(String var) {
+    public int hashCode(String variableName) {
         int sum = 0;
-        for (char c : var.toCharArray())
+        for (char c : variableName.toCharArray())
             sum += c;
 
         return sum % size;
     }
 
     public void print() {
-        for (int i = 0; i < symTbl.size(); i++) {
-            ArrayList<String> entries = symTbl.get(i);
+        for (int index = 0; index < symTbl.size(); index++) {
+            ArrayList<String> entries = symTbl.get(index);
 
             if (entries.size() != 0)
-                System.out.print(i);
+                System.out.print(index);
 
-            for (String entry : entries) {
+            for (String entry : entries)
                 System.out.print(" " + entry);
-            }
 
             if (entries.size() != 0)
                 System.out.println();
