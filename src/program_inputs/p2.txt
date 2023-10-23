@@ -1,20 +1,28 @@
 var
-	int a
-	int i
-	int divisors
+	int a;
+	int i;
+	int divisors;
 
 start
-	read a
-	i <- a
-	divisors <- 0
+	read a;
+	i <- a;
+	divisors <- 0;
 
 	while i > 0 run
+		start
 		if a % i = 0
-			divisors <- divisors + 1
-		i <- i - 1
+			start
+			divisors <- divisors + 1;
+			finish
+		i <- i - 1;
+		finish
 
 	if divisors = 2
-		write "prime"
+		start
+		write "prime";
+		finish
 	otherwise
-		write "not prime"
+		start
+		write "not prime";
+		finish
 finish

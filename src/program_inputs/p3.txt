@@ -1,18 +1,20 @@
 var
-	int n
-	int sum
-	int i
+	int n;
+	int sum;
+	int i;
+	int number;
 
 start
-	read n
-	sum <- 0
-	i <- 0
+	read n;
+	sum <- 0;
+	i <- 0;
 
 	while i < n run
-		int number
-		read number
-		sum <- sum + number
-		i <- i + 1
+		start
+		read number;
+		sum <- sum + number;
+		i <- i + 1;
+		finish
 
-	write sum
+	write sum;
 finish

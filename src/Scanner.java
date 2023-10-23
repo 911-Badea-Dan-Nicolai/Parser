@@ -74,7 +74,7 @@ public class Scanner {
     }
 
     private boolean isIdentifier() {
-        var identifierPatter = Pattern.compile("^([A-Za-z])+");
+        var identifierPatter = Pattern.compile("^[A-Za-z][A-Za-z0-9]*");
         var matcher = identifierPatter.matcher(programFile.substring(currentCharacter));
 
         if(!matcher.find())
@@ -101,6 +101,8 @@ public class Scanner {
             return false;
 
         var intConst = matcher.group(0);
+        if (intConst.startsWith("0") && intConst.length() > 1)
+            return false;
         currentCharacter += intConst.length();
 
         int[] position = symbolTable.add(intConst);
@@ -161,13 +163,13 @@ public class Scanner {
         ignoreSpaces();
         if (currentLine == programFile.length())
             return;
-        if (isIdentifier())
-            return;
-        if (isIntConstant())
-            return;
         if (isStringConstant())
             return;
         if (isToken())
+            return;
+        if (isIdentifier())
+            return;
+        if (isIntConstant())
             return;
         throw new Exception("Lexical error at: " + currentLine + " " + currentCharacter);
     }

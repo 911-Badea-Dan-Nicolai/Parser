@@ -1,20 +1,27 @@
 var
-	int a
-	int b
-	int c
-	int max
+	int a;
+	int b;
+	int c;
+	int max;
 
 start
-	a <- 5
-	b <- 7
-	c <- 9
+	a <- 5;
+	b <- 7;
+	c <- 9;
 
 	if a > b then
-		max <- a
+		start
+		max <- a;
 		if a < c then
-			max <- c
+			start
+			max <- c;
+		finish
 	otherwise
-		max <- b
+		start
+		max <- b;
 		if b < c then
-			max <- c
+			start
+			max <- c;
+			finish
+		finish
 finish

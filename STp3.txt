@@ -1,9 +1,5 @@
 5 i
 10 n
-11 ar
-26 nt
 41 sum
-43 tart
 48 0
 49 number 1
-98 ead
