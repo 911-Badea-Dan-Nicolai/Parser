@@ -2,7 +2,7 @@
 5 i
 9 "prime"
 11 ar
-18 hile
+18 while
 26 nt
 27 un
 43 tart

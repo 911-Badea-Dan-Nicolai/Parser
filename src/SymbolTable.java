@@ -20,6 +20,9 @@ class SymbolTable<T> {
     }
 
     public int[] add(String variableName) {
+        if (contains(variableName))
+            return search(variableName);
+
         int hashCode = hashCode(variableName);
         while (symTbl.size() <= hashCode)
             symTbl.add(new ArrayList<>());
@@ -37,6 +40,14 @@ class SymbolTable<T> {
 
         return new int[]{hashCode, index};
     }
+
+    public boolean contains(String variableName) {
+        for (ArrayList<String> position : symTbl)
+            if (position.contains(variableName))
+                return true;
+        return false;
+    }
+
 
     public int hashCode(String variableName) {
         int sum = 0;
@@ -59,5 +70,26 @@ class SymbolTable<T> {
             if (entries.size() != 0)
                 System.out.println();
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int index = 0; index < symTbl.size(); index++) {
+            ArrayList<String> entries = symTbl.get(index);
+
+            if (entries.size() != 0) {
+                sb.append(index);
+            }
+
+            for (String entry : entries) {
+                sb.append(" ").append(entry);
+            }
+
+            if (entries.size() != 0) {
+                sb.append("\n");
+            }
+        }
+        return sb.toString();
     }
 }
