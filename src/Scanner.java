@@ -28,7 +28,6 @@ public class Scanner {
         }catch (IOException ex) {
             ex.printStackTrace();
         }
-
     }
 
     public void setProgramFile(String programFile) {
@@ -73,7 +72,7 @@ public class Scanner {
         return symbolTable.contains(identifier);
     }
 
-    private boolean isIdentifier() {
+    private boolean isIdentifier() throws Exception {
         var identifierPatter = Pattern.compile("^[A-Za-z][A-Za-z0-9]*");
         var matcher = identifierPatter.matcher(programFile.substring(currentCharacter));
 
@@ -82,7 +81,7 @@ public class Scanner {
 
         var identifier = matcher.group();
         if(!isIdentifierValid(identifier))
-            return false;
+            throw new Exception("Lexical error at: " + currentLine + " " + currentCharacter);
 
         currentCharacter += identifier.length();
 
@@ -94,14 +93,14 @@ public class Scanner {
     }
 
     private boolean isIntConstant() {
-        var intConstPattern = Pattern.compile("^[+-]?[1-9][0-9]*|0");
+        var intConstPattern = Pattern.compile("^[+-]?[1-9][0-9]*|0[0-9]?");
         var matcher = intConstPattern.matcher(programFile.substring(currentCharacter));
 
         if(!matcher.find())
             return false;
 
         var intConst = matcher.group(0);
-        if (intConst.startsWith("0") && intConst.length() > 1)
+        if (intConst.charAt(0) == '0' && intConst.length() > 1)
             return false;
         currentCharacter += intConst.length();
 

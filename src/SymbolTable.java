@@ -35,10 +35,12 @@ class SymbolTable<T> {
         int hashCode = hashCode(variableName);
         int index = 0;
 
-        while(!Objects.equals(symTbl.get(hashCode).get(index), variableName))
-            index++;
+        for(String element: symTbl.get(hashCode)){
+            if (element.equals(variableName))
+                return new int[]{hashCode, index};
+        }
 
-        return new int[]{hashCode, index};
+        return new int[]{-1, -1};
     }
 
     public boolean contains(String variableName) {
@@ -47,7 +49,6 @@ class SymbolTable<T> {
                 return true;
         return false;
     }
-
 
     public int hashCode(String variableName) {
         int sum = 0;
@@ -78,17 +79,14 @@ class SymbolTable<T> {
         for (int index = 0; index < symTbl.size(); index++) {
             ArrayList<String> entries = symTbl.get(index);
 
-            if (entries.size() != 0) {
+            if (entries.size() != 0)
                 sb.append(index);
-            }
 
-            for (String entry : entries) {
+            for (String entry : entries)
                 sb.append(" ").append(entry);
-            }
 
-            if (entries.size() != 0) {
+            if (entries.size() != 0)
                 sb.append("\n");
-            }
         }
         return sb.toString();
     }
