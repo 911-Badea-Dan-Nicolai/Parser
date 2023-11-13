@@ -9,5 +9,11 @@ public class Main {
         //scanner.scan(program1err);
         //scanner.scan(program2);
         //scanner.scan(program3);
+        FA fa = new FA();
+        String FAFile = "fa.in";
+        fa.display(FAFile);
+
+        String inputSequence = "000";
+        fa.isAccepted(inputSequence);
     }
 }
