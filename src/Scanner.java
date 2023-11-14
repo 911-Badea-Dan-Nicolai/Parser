@@ -16,6 +16,8 @@ public class Scanner {
     private List<AbstractMap.SimpleEntry<String, int[]>> PIF;
     private int currentCharacter = 0;
     private int currentLine = 1;
+    private FA fa_identifiers;
+    private FA fa_ints;
 
     // Methods
     public Scanner() throws IOException {
@@ -24,6 +26,10 @@ public class Scanner {
             this.PIF =  new ArrayList<>();
             this.reservedWords = new ArrayList<>();
             this.tokens = new ArrayList<>();
+            this.fa_identifiers = new FA();
+            this.fa_ints = new FA();
+            fa_identifiers.display("identify.in");
+            fa_ints.display("ints.in");
             readTokens();
         }catch (IOException ex) {
             ex.printStackTrace();
@@ -66,7 +72,10 @@ public class Scanner {
         if (reservedWords.contains(identifier))
             return false;
 
-        if (Pattern.matches("^[A-Za-z]+$", identifier))
+        //if (Pattern.matches("^[A-Za-z]+$", identifier))
+          //  return true;
+
+        if(fa_identifiers.isAccepted(identifier))
             return true;
 
         return symbolTable.contains(identifier);
@@ -100,7 +109,9 @@ public class Scanner {
             return false;
 
         var intConst = matcher.group(0);
-        if (intConst.charAt(0) == '0' && intConst.length() > 1)
+        /*if (intConst.charAt(0) == '0' && intConst.length() > 1)
+            return false;*/
+        if (!fa_ints.isAccepted(intConst))
             return false;
         currentCharacter += intConst.length();
 

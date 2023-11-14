@@ -21,6 +21,7 @@ public class FA {
         this.transitions = new LinkedList<>();
         this.initialState = "";
         this.finalStates = new LinkedList<>();
+        checkDeterminism();
     }
 
     public void setProgramFile(String programFile) {
@@ -78,7 +79,7 @@ public class FA {
         setProgramFile(filePath.toString());
         readFile();
 
-        checkDeterminism();
+        //checkDeterminism();
 
         System.out.println("Set of States: " + setOfStates);
         System.out.println("Alphabet: " + alphabet);
@@ -87,10 +88,10 @@ public class FA {
         System.out.println("Final States: " + finalStates);
     }
 
-    public void isAccepted(String inputSequence) {
+    public boolean isAccepted(String inputSequence) {
         if (!isDeterministic) {
             System.out.println("The FA is not deterministic.");
-            return;
+            return false;
         }
 
         String currentState = initialState;
@@ -113,10 +114,13 @@ public class FA {
             currentState = nextState;
         }
 
-        if (finalStates.contains(currentState))
+        if (finalStates.contains(currentState)) {
             System.out.println("The input sequence is accepted by the DFA.");
+            return true;
+        }
         else
             System.out.println("The input sequence is not accepted by the DFA.");
+        return false;
     }
 
     private void checkDeterminism() {

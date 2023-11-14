@@ -5,15 +5,15 @@ public class Main {
         String program1err = "p1err.txt";
         String program2 = "p2.txt";
         String program3 = "p3.txt";
-        //scanner.scan(program1);
+        scanner.scan(program1);
         //scanner.scan(program1err);
-        //scanner.scan(program2);
-        //scanner.scan(program3);
-        FA fa = new FA();
-        String FAFile = "fa.in";
-        fa.display(FAFile);
+        scanner.scan(program2);
+        scanner.scan(program3);
+        //FA fa = new FA();
+        //String FAFile = "fa.in";
+        //fa.display(FAFile);
 
-        String inputSequence = "000";
-        fa.isAccepted(inputSequence);
+        //String inputSequence = "0001";
+        //fa.isAccepted(inputSequence);
     }
 }
