@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.*;
@@ -67,8 +66,11 @@ public class Grammar {
     }
 
     public boolean isCFG() {
+        for (String key : productions.keySet()) {
+            if (!nonTerminals.contains(key) || key.contains(" ")) {
+                return false;
+            }
+        }
         return true;
     }
-
-
 }
