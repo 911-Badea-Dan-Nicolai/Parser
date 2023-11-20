@@ -7,6 +7,7 @@ public class Grammar {
     private Set<String> nonTerminals;
     private Set<String> terminals;
     private Map<String, List<String>> productions;
+    private String startSymbol;
 
     public Grammar() {
         nonTerminals = new HashSet<>();
@@ -21,7 +22,10 @@ public class Grammar {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
 
-            if (line.startsWith("States:")) {
+            if(line.startsWith("Begin state:")) {
+                this.startSymbol = line.substring("Begin state:".length()).trim();
+            }
+            else if (line.startsWith("States:")) {
                 String[] states = line.substring(8).split(", ");
                 nonTerminals.addAll(Arrays.asList(states));
             } else if (line.startsWith("Alphabet:")) {
@@ -44,6 +48,10 @@ public class Grammar {
         }
 
         scanner.close();
+    }
+
+    public void printStartSymbol() {
+        System.out.println("Start symbol: " + startSymbol);
     }
 
     public void printNonTerminals() {
