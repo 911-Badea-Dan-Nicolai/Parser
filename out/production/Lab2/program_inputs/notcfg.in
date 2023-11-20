@@ -1,0 +1,8 @@
+States: S, A, B, C
+Alphabet: a, b
+Begin state: S
+Transitions:
+S::=a A|ε
+A::=a B|a
+B::=b C|b
+C::=c S|c
