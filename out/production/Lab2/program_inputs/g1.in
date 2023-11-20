@@ -1,7 +1,7 @@
-States: S, A, B
-Alphabet: 0, 1
+Non Terminals: S, A, B
+Terminals: 0, 1
 Begin state: S
-Transitions:
+Productions:
 S::=0 B|1 A
 A::=0|0 S|1 A A
 B::=A|1 S|0 B B
