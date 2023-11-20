@@ -67,7 +67,6 @@ public class Grammar {
     }
 
     public boolean isCFG() {
-        // Implement logic to check if the grammar is a CFG
         return true;
     }
 
