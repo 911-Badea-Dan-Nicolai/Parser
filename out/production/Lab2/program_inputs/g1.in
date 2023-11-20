@@ -1,0 +1,7 @@
+States: S, A, B
+Alphabet: 0, 1
+Begin state: S
+Transitions:
+S::=0B|1A
+A::=0|0S|1AA
+B::=A|1S|0BB
