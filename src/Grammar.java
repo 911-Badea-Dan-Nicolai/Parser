@@ -74,7 +74,24 @@ public class Grammar {
     }
 
     public boolean isCFG() {
+        if (!nonTerminals.contains(startSymbol)) {
+            return false;
+        }
+        for (String key : productions.keySet()) {
+            if (!nonTerminals.contains(key)) {
+                return false;
+            }
+            for (String production : productions.get(key)) {
+                String[] rhsSymbols = production.trim().split(" ");
 
+                for (String rhsSymbol : rhsSymbols) {
+                    if (!nonTerminals.contains(rhsSymbol) && !terminals.contains(rhsSymbol) && !rhsSymbol.equals("ε")) {
+                        System.out.println(rhsSymbol);
+                        return false;
+                    }
+                }
+            }
+        }
         return true;
     }
 }

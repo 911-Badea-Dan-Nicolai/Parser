@@ -1,5 +1,5 @@
 States: program, declist, declaration, type1, arraydecl, type, cmpdstmt, stmtlist, stmt, simplstmt, structstmt, assignstmt, expression, term, factor, iostmt, ifstmt, whilestmt, condition, RELATION
-Alphabet: var, ;, start, finish, boolean, char, int, grid, [, ], <-, +, -, *, /, (, ), read, write, if, then, otherwise, while, run, <, <=, =, >=, >, %, identifier, constint, constchar, conststring
+Alphabet: var, ;, start, finish, boolean, char, int, grid, [, ], <-, +, -, *, /, (, ), read, write, if, then, otherwise, while, run, <, <=, =, >=, >, <>, ., %, identifier, constint, constchar, conststring
 Begin state: program
 Transitions:
 program::=var declist ; cmpdstmt .
@@ -16,8 +16,8 @@ assignstmt::=identifier <- expression
 expression::=expression + term|expression - term|term
 term::=term * factor|term / factor|factor
 factor::=( expression )|identifier|constint
-iostmt::=read identifier|write identifier|write constinteger|write conststring|write constchar
-structstmt::=smpdstmt|ifstmt|whilestmt
+iostmt::=read identifier|write identifier|write constint|write conststring|write constchar
+structstmt::=cmpdstmt|ifstmt|whilestmt
 ifstmt::=if condition then stmt|if condition then stmt otherwise stmt
 whilestmt::=while condition run stmt
 condition::=expression RELATION expression
