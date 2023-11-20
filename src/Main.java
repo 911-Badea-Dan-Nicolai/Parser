@@ -1,11 +1,11 @@
 public class Main {
     public static void main(String[] args) throws Exception {
         Grammar grammar = new Grammar();
-        grammar.readFromFile("src/program_inputs/g1.in");
-//        grammar.printTerminals();
-//        grammar.printProductions();
-//        grammar.printNonTerminals();
-//        System.out.println(grammar.getProductionsForNonTerminal("A"));
+        grammar.printTerminals();
+        grammar.printProductions();
+        grammar.printNonTerminals();
+        grammar.printStartSymbol();
+        System.out.println(grammar.getProductionsForNonTerminal("ifstmt"));
         System.out.println(grammar.isCFG());
     }
 }

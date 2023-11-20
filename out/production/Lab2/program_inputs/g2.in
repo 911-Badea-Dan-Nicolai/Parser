@@ -1,8 +1,30 @@
+<<<<<<< HEAD
 States: S, A, B, C
 Alphabet: a, b, c
 Begin state: S
+=======
+States: program, declist, declaration, type1, arraydecl, type, cmpdstmt, stmtlist, stmt, simplstmt, structstmt, assignstmt, expression, term, factor, iostmt, ifstmt, whilestmt, condition, RELATION
+Alphabet: var, ;, start, finish, boolean, char, int, grid, [, ], <-, +, -, *, /, (, ), read, write, if, then, otherwise, while, run, <, <=, =, >=, >, %, identifier, constint, constchar, conststring
+Begin state: program
+>>>>>>> 27efda2c7b22297c5a97ed642da5460374873c83
 Transitions:
-S::=aA|ε
-A::=aB|a
-B::=bC|b
-C::=cS|c
+program::=var declist ; cmpdstmt .
+declist::=declaration|declaration ; declist
+declaration::=type identifier
+type1::=boolean|char|int
+arraydecl::=type1 grid [ constint ]
+type::=type1|arraydecl
+cmpdstmt::=start stmtlist finish
+stmtlist::=stmt|stmt ; stmtlist
+stmt::=simplstmt|structstmt
+simplstmt::=assignstmt|iostmt
+assignstmt::=identifier <- expression
+expression::=expression + term|expression - term|term
+term::=term * factor|term / factor|factor
+factor::=( expression )|identifier|constint
+iostmt::=read identifier|write identifier|write constinteger|write conststring|write constchar
+structstmt::=smpdstmt|ifstmt|whilestmt
+ifstmt::=if condition then stmt|if condition then stmt otherwise stmt
+whilestmt::=while condition run stmt
+condition::=expression RELATION expression
+RELATION::=<|<=|=|<>|>=|>
