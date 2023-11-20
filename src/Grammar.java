@@ -66,11 +66,7 @@ public class Grammar {
     }
 
     public boolean isCFG() {
-        for (String key : productions.keySet()) {
-            if (!nonTerminals.contains(key) || key.contains(" ")) {
-                return false;
-            }
-        }
+
         return true;
     }
 }

@@ -1,5 +1,5 @@
 States: S, A, B, C
-Alphabet: a, b, c
+Alphabet: a, b
 Begin state: S
 Transitions:
 S::=aA|ε
