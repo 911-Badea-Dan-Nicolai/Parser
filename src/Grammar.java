@@ -86,7 +86,6 @@ public class Grammar {
 
     public boolean isCFG() {
         if (!nonTerminals.contains(startSymbol.get(0))) {
-            System.out.println("crapa aici");
             return false;
         }
         for (Map.Entry<List<String>, List<String>> entry : productions.entrySet()) {
