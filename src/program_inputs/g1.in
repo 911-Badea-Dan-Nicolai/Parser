@@ -1,7 +1,5 @@
-Non Terminals: S, A, B
-Terminals: 0, 1
+Non Terminals: S
+Terminals: a, b, c
 Begin state: S
 Productions:
-S::=0 B|1 A
-A::=0|0 S|1 A A
-B::=A|1 S|0 B B
+S::=a S b S|a S|c
