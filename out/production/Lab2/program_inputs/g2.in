@@ -1,7 +1,7 @@
-States: program, declist, declaration, type1, arraydecl, type, cmpdstmt, stmtlist, stmt, simplstmt, structstmt, assignstmt, expression, term, factor, iostmt, ifstmt, whilestmt, condition, RELATION
-Alphabet: var, ;, start, finish, boolean, char, int, grid, [, ], <-, +, -, *, /, (, ), read, write, if, then, otherwise, while, run, <, <=, =, >=, >, <>, ., %, identifier, constint, constchar, conststring
+Non Terminals: program, declist, declaration, type1, arraydecl, type, cmpdstmt, stmtlist, stmt, simplstmt, structstmt, assignstmt, expression, term, factor, iostmt, ifstmt, whilestmt, condition, RELATION
+Terminals: var, ;, start, finish, boolean, char, int, grid, [, ], <-, +, -, *, /, (, ), read, write, if, then, otherwise, while, run, <, <=, =, >=, >, <>, ., %, identifier, constint, constchar, conststring
 Begin state: program
-Transitions:
+Productions:
 program::=var declist ; cmpdstmt .
 declist::=declaration|declaration ; declist
 declaration::=type identifier
