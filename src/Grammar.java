@@ -9,6 +9,26 @@ public class Grammar {
     private final Map<List<String>, List<String>> productions;
     private List<String> startSymbol;
 
+    public Set<String> getNonTerminals() {
+        return nonTerminals;
+    }
+
+    public Set<String> getTerminals() {
+        return terminals;
+    }
+
+    public Map<List<String>, List<String>> getProductions() {
+        return productions;
+    }
+
+    public List<String> getStartSymbol() {
+        return startSymbol;
+    }
+
+    public void setStartSymbol(List<String> startSymbol) {
+        this.startSymbol = startSymbol;
+    }
+
     public Grammar() {
         nonTerminals = new HashSet<>();
         terminals = new HashSet<>();
@@ -108,5 +128,9 @@ public class Grammar {
             }
         }
         return true;
+    }
+
+    public boolean isNonTerminal(String symbol) {
+        return nonTerminals.contains(symbol);
     }
 }
