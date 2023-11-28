@@ -8,6 +8,7 @@ public class Grammar {
     private final Set<String> terminals;
     private final Map<List<String>, List<String>> productions;
     private List<String> startSymbol;
+    private final Map<String, Integer> productionIndices;
 
     public Set<String> getNonTerminals() {
         return nonTerminals;
@@ -33,6 +34,7 @@ public class Grammar {
         nonTerminals = new HashSet<>();
         terminals = new HashSet<>();
         productions = new HashMap<>();
+        productionIndices = new HashMap<>();
     }
 
     public void readFromFile(String filename) throws IOException {
@@ -63,10 +65,12 @@ public class Grammar {
                     List<String> rulesList = productions.getOrDefault(leftSideList, new ArrayList<>());
                     Collections.addAll(rulesList, rightSideRules);
                     productions.put(leftSideList, rulesList);
+
+                    productionIndices.putIfAbsent(leftSide, 0);
                 }
             }
         }
-
+        initializeProductionIndices();
         scanner.close();
     }
 
@@ -132,5 +136,36 @@ public class Grammar {
 
     public boolean isNonTerminal(String symbol) {
         return nonTerminals.contains(symbol);
+    }
+
+    public String getNextProductionForNonTerminal(String nonTerminal, int index) {
+        List<String> productionsList = getProductionsForNonTerminal(nonTerminal);
+
+        if (index < productionsList.size()) {
+            productionIndices.put(nonTerminal, index + 1);
+            return productionsList.get(index);
+        }
+
+        return null;
+    }
+
+    public int getProductionLen(String nonTerminal, int index) {
+        List<String> productionsList = getProductionsForNonTerminal(nonTerminal);
+        String production = productionsList.get(index);
+        return production.split(" ").length;
+    }
+
+    public void resetProductionIndex(String nonTerminal) {
+        productionIndices.put(nonTerminal, 0);
+    }
+
+    public void initializeProductionIndices() {
+        for (String nonTerminal : nonTerminals) {
+            List<String> productionsList = getProductionsForNonTerminal(nonTerminal);
+
+            if (!productionsList.isEmpty()) {
+                productionIndices.put(nonTerminal, 0);
+            }
+        }
     }
 }
