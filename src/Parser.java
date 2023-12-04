@@ -7,6 +7,7 @@ public class Parser {
     private final Stack<String> workingStack;
     private final Stack<String> inputStack;
 
+
     public Parser(Grammar grammar) {
         this.grammar = grammar;
         this.stateOfParsing = "q";
@@ -54,6 +55,7 @@ public class Parser {
             System.out.println("Error");
         } else {
             System.out.println("Sequence accepted");
+            generateParsingTreeOutput(this.workingStack);
         }
     }
 
@@ -117,6 +119,27 @@ public class Parser {
         Collections.reverse(tokenList);
         for(String token : tokenList) {
             inputStack.push(token);
+        }
+    }
+
+    public void generateParsingTreeOutput(Stack<String> invertedNodes ) {
+        Stack <String> nodes = new Stack<>();
+        Stack <String> expandedNodes = new Stack<>();
+        while(!invertedNodes.isEmpty()) {
+            nodes.push(invertedNodes.pop());
+        }
+
+        while(!nodes.isEmpty()) {
+            String node = nodes.pop();
+            if(node.contains(" ")) {
+                String [] parts = node.split(" ");
+                String baseNonTerminal = parts[0];
+                int index = Integer.parseInt(parts[1]);
+                var productionsString = grammar.getProductionForNonTerminal(baseNonTerminal, index - 1);
+                var productions = productionsString.split(" ");
+
+                int fdslaf = 0;
+            }
         }
     }
 }

@@ -149,6 +149,11 @@ public class Grammar {
         return null;
     }
 
+    public String getProductionForNonTerminal(String nonTerminal, int index) {
+        List<String> productionsList = getProductionsForNonTerminal(nonTerminal);
+        return productionsList.get(index);
+    }
+
     public int getProductionLen(String nonTerminal, int index) {
         List<String> productionsList = getProductionsForNonTerminal(nonTerminal);
         String production = productionsList.get(index);
