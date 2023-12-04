@@ -1,0 +1,5 @@
+Non Terminals: S
+Terminals: a, b, c
+Begin state: S
+Productions:
+S::=a S b S|a S|c

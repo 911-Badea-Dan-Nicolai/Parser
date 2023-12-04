@@ -2,91 +2,121 @@ import java.util.*;
 
 public class Parser {
     private final Grammar grammar;
-    private List<String> tokens; // Input tokens
-    private int currentPosition;
+    private String stateOfParsing; // q - normal state, b - back state, f - final state, e - error state
+    private int currentSymbolPosition;
+    private final Stack<String> workingStack;
+    private final Stack<String> inputStack;
 
     public Parser(Grammar grammar) {
         this.grammar = grammar;
+        this.stateOfParsing = "q";
+        this.currentSymbolPosition = 0;
+        this.workingStack = new Stack<>();
+        this.inputStack = new Stack<>();
+        inputStack.push(grammar.getStartSymbol().get(0));
     }
 
-    public void parse(List<String> tokens) {
-        this.tokens = tokens;
-        this.currentPosition = 0;
-
-        boolean parsedSuccessfully = parseStartSymbol();
-
-        if (parsedSuccessfully && isSuccess()) {
-            System.out.println("Parsing successful!");
-        } else {
-            System.out.println("Parsing failed.");
-        }
-    }
-
-    private boolean parseStartSymbol() {
-        String startSymbol = grammar.getStartSymbol().get(0); // Assume this method returns the start symbol of the grammar
-        return expand(startSymbol);
-    }
-
-    private boolean tryProduction(String production) {
-        String[] symbols = production.split(" ");
-
-        for (String symbol : symbols) {
-            int startPosition = currentPosition;
-            boolean result;
-
-            if (grammar.isNonTerminal(symbol)) {
-                result = expand(symbol); // Expand non-terminal
+    public void parse(List<String> input) {
+        while(!Objects.equals(stateOfParsing, "f") && !Objects.equals(stateOfParsing, "e")) {
+            if(stateOfParsing.equals("q")) {
+                if(currentSymbolPosition == input.size() && inputStack.isEmpty()) {
+                    isSuccess();
+                } else {
+                    if(grammar.isNonTerminal(inputStack.peek())) {
+                        expand();
+                    } else {
+                        if(currentSymbolPosition < input.size()){
+                            if(Objects.equals(inputStack.peek(), input.get(currentSymbolPosition))) {
+                                advance();
+                            } else {
+                                momentaryInsuccess();
+                            }
+                        } else {
+                        momentaryInsuccess();
+                        }
+                    }
+                }
             } else {
-                result = advance(symbol); // Try to match terminal
+
+                if(stateOfParsing.equals("b")) {
+                    if(currentSymbolPosition >= input.size()) {
+                        back();
+                    } else if (Objects.equals(workingStack.peek(), input.get(currentSymbolPosition-1))) {
+                        back();
+                    } else {
+                        anotherTry();
+                    }
+                }
+            }
+        }
+
+        if(stateOfParsing.equals("e")) {
+            System.out.println("Error");
+        } else {
+            System.out.println("Sequence accepted");
+        }
+    }
+
+    private void isSuccess() {
+        stateOfParsing = "f";
+    }
+
+    private void anotherTry() {
+        String currentNonTerminal = workingStack.peek();
+        String[] parts = currentNonTerminal.split(" ");
+        String baseNonTerminal = parts[0];
+        int index = Integer.parseInt(parts[1]);
+        String nextProduction = grammar.getNextProductionForNonTerminal(baseNonTerminal, index);
+
+        for(int i = 0; i<grammar.getProductionLen(baseNonTerminal, index - 1); i++) {
+            inputStack.pop();
+        }
+
+        if (nextProduction != null) {
+            workingStack.pop();
+            workingStack.push(baseNonTerminal + " " + (index + 1));
+            String[] tokens = nextProduction.split("\\s+");
+            List<String> tokenList = Arrays.asList(tokens);
+            Collections.reverse(tokenList);
+            for (String token : tokenList) {
+                inputStack.push(token);
             }
 
-            if (!result) {
-                anotherTry(startPosition, symbol); // Another try after momentary insuccess
-                return false;
-            }
+            stateOfParsing = "q";
+        } else {
+            inputStack.push(baseNonTerminal);
+            workingStack.pop();
         }
 
-        return true; // Success for this production
-    }
 
-    private boolean expand(String nonTerminal) {
-        if (!grammar.isNonTerminal(nonTerminal)) {
-            throw new IllegalArgumentException(nonTerminal + " is not a non-terminal");
+        if(currentSymbolPosition == 1 && stateOfParsing.equals("s")){
+            stateOfParsing = "e";
         }
+    }
 
-        List<String> productions = grammar.getProductionsForNonTerminal(nonTerminal);
-        for (String production : productions) {
-            if (tryProduction(production)) {
-                return true; // Success for this production
-            }
-            // Momentary insuccess is handled implicitly here
+    private void back() {
+        currentSymbolPosition--;
+        inputStack.push(workingStack.pop());
+    }
+
+    private void momentaryInsuccess() {
+        stateOfParsing = "b";
+    }
+
+    private void advance() {
+        workingStack.push(inputStack.pop());
+        currentSymbolPosition++;
+    }
+
+    private void expand() {
+        workingStack.push(inputStack.peek() + " 1");
+        String production = grammar.getProductionsForNonTerminal(inputStack.pop()).get(0);
+
+        String[] tokens = production.split("\\s+");
+        List<String> tokenList = Arrays.asList(tokens);
+        Collections.reverse(tokenList);
+        for(String token : tokenList) {
+            inputStack.push(token);
         }
-
-        return false; // Momentary insuccess for all productions of this non-terminal
     }
-
-    private boolean anotherTry(int startPosition, String nonTerminal) {
-        backtrack(startPosition); // Reset to the previous state
-        return expand(nonTerminal); // Try the next production
-    }
-
-    private boolean isSuccess() {
-        return currentPosition == tokens.size(); // Check if we reached the end of the input
-    }
-
-    // Other methods corresponding to non-terminals
-
-    private boolean advance(String expectedToken) {
-        if (currentPosition < tokens.size() && tokens.get(currentPosition).equals(expectedToken)) {
-            currentPosition++;
-            return true;
-        }
-        return false;
-    }
-
-    private void backtrack(int position) {
-        currentPosition = position;
-    }
-
-    // Methods for other moves (expand, momentary insuccess, another try, success)
 }
