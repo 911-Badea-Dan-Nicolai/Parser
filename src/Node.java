@@ -1,4 +1,8 @@
 class Node {
+    @Override
+    public String toString() {
+        return "   " + index + "  |  " + info + "   |    " + parent + "   |      " + rightSibling;
+    }
 
     public int getIndex() {
         return index;
