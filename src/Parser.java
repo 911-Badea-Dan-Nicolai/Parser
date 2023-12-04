@@ -41,7 +41,7 @@ public class Parser {
             }
 
             if (!result) {
-                anotherTry(startPosition); // Another try after momentary insuccess
+                anotherTry(startPosition, symbol); // Another try after momentary insuccess
                 return false;
             }
         }
@@ -65,9 +65,9 @@ public class Parser {
         return false; // Momentary insuccess for all productions of this non-terminal
     }
 
-    private boolean anotherTry(int startPosition) {
-        backtrack(startPosition - 1); // Reset to the previous state
-        return expand(grammar.ge); // Try the next production
+    private boolean anotherTry(int startPosition, String nonTerminal) {
+        backtrack(startPosition); // Reset to the previous state
+        return expand(nonTerminal); // Try the next production
     }
 
     private boolean isSuccess() {
