@@ -41,7 +41,6 @@ class Node {
     int parent;
     int rightSibling;
 
-
     public Node(int index, String info, int parent, int rightSibling) {
         this.index = index;
         this.info = info;

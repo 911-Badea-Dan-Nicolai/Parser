@@ -29,6 +29,7 @@ public class ParserOutput {
 
             while (!nodes.isEmpty()) {
                 String node = nodes.pop();
+
                 if (node.contains(" ")) {
                     String[] parts = node.split(" ");
                     String baseNonTerminal = parts[0];
@@ -51,6 +52,14 @@ public class ParserOutput {
                         expandedNodes.pop();
                         nodes.pop();
                         currentParentIndex++;
+                    }
+
+                    for(Node elem: parseTable) {
+                        if(elem.index == currentParentIndex) {
+                            if(!grammar.isNonTerminal(elem.info)){
+                                currentParentIndex++;
+                            }
+                        }
                     }
 
                     if (!expandedNodes.isEmpty())
