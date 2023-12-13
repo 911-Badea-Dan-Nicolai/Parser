@@ -97,7 +97,7 @@ public class Scanner {
         int[] position = symbolTable.add(identifier);
 
         PIF.add(new AbstractMap.SimpleEntry<>("identifier", position));
-        System.out.println(identifier);
+        //System.out.println(identifier);
         return true;
     }
 
@@ -117,8 +117,8 @@ public class Scanner {
 
         int[] position = symbolTable.add(intConst);
 
-        PIF.add(new AbstractMap.SimpleEntry<>("int const", position));
-        System.out.println(intConst);
+        PIF.add(new AbstractMap.SimpleEntry<>("constint", position));
+        //System.out.println(intConst);
         return true;
     }
 
@@ -134,15 +134,15 @@ public class Scanner {
 
         int[] position = symbolTable.add(stringConst);
 
-        PIF.add(new AbstractMap.SimpleEntry<>("string const", position));
-        System.out.println(stringConst);
+        PIF.add(new AbstractMap.SimpleEntry<>("conststring", position));
+        //System.out.println(stringConst);
         return true;
     }
 
     private boolean addToPIF(String token) {
         currentCharacter += token.length();
         PIF.add(new AbstractMap.SimpleEntry<>(token, new int[]{-1, -1}));
-        System.out.println(token);
+        //System.out.println(token);
         return true;
     }
 

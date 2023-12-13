@@ -39,7 +39,6 @@ public class Parser {
                     }
                 }
             } else {
-
                 if(stateOfParsing.equals("b")) {
                     if(currentSymbolPosition >= input.size()) {
                         back();
@@ -53,7 +52,7 @@ public class Parser {
         }
 
         if(stateOfParsing.equals("e")) {
-            System.out.println("Error");
+            System.out.println("Syntax error at position " + currentSymbolPosition + ": Unexpected token '" + input.get(currentSymbolPosition) + "'");
         } else {
             System.out.println("Sequence accepted");
             parserOutput.generateParsingTreeOutput(this.workingStack);
@@ -90,7 +89,6 @@ public class Parser {
             inputStack.push(baseNonTerminal);
             workingStack.pop();
         }
-
 
         if(currentSymbolPosition == 1 && stateOfParsing.equals("s")){
             stateOfParsing = "e";

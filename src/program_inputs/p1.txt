@@ -15,6 +15,7 @@ start
 		if a < c then
 			start
 			max <- c;
+		    finish
 		finish
 	otherwise
 		start

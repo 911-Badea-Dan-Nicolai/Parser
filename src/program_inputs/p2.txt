@@ -10,14 +10,14 @@ start
 
 	while i > 0 run
 		start
-		if a % i = 0
+		if a % i = 0 then
 			start
 			divisors <- divisors + 1;
 			finish
 		i <- i - 1;
 		finish
 
-	if divisors = 2
+	if divisors = 2 then
 		start
 		write "prime";
 		finish

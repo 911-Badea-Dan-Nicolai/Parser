@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.Scanner;
@@ -172,5 +174,30 @@ public class Grammar {
                 productionIndices.put(nonTerminal, 0);
             }
         }
+    }
+
+    public ArrayList<String> readPIFFromFile(String filePath) {
+        ArrayList<String> leftPartsList = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Split the line into tokens based on the ":" delimiter
+                String[] tokens = line.split(":");
+
+                // Extract and trim the left part of the pair
+                String leftPart = tokens[0].trim();
+
+                // Add the left part to the list
+                leftPartsList.add(leftPart);
+            }
+
+            leftPartsList.add(".");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return leftPartsList;
     }
 }
