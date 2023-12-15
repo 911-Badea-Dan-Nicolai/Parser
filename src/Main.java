@@ -10,6 +10,8 @@ public class Main {
         scanner.scan("p3.txt");
         Parser parser = new Parser(grammar);
 
+        //grammar.printProductions();
+
         ArrayList<String> programPIF = grammar.readPIFFromFile("PIFp3.txt");
         parser.parse(programPIF);
     }

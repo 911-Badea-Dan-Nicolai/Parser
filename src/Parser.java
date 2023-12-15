@@ -7,6 +7,7 @@ public class Parser {
     private final Stack<String> workingStack;
     private final Stack<String> inputStack;
     private final ParserOutput parserOutput;
+    private int maxSymbolPosition;
 
     public Parser(Grammar grammar) {
         this.grammar = grammar;
@@ -15,6 +16,7 @@ public class Parser {
         this.workingStack = new Stack<>();
         this.inputStack = new Stack<>();
         this.parserOutput = new ParserOutput(grammar);
+        this.maxSymbolPosition = 0;
         inputStack.push(grammar.getStartSymbol().get(0));
     }
 
@@ -42,7 +44,7 @@ public class Parser {
                 if(stateOfParsing.equals("b")) {
                     if(currentSymbolPosition >= input.size()) {
                         back();
-                    } else if (Objects.equals(workingStack.peek(), input.get(currentSymbolPosition-1))) {
+                    } else if (currentSymbolPosition > 0 &&  Objects.equals(workingStack.peek(), input.get(currentSymbolPosition-1))) {
                         back();
                     } else {
                         anotherTry();
@@ -52,7 +54,7 @@ public class Parser {
         }
 
         if(stateOfParsing.equals("e")) {
-            System.out.println("Syntax error at position " + currentSymbolPosition + ": Unexpected token '" + input.get(currentSymbolPosition) + "'");
+            System.out.println("Syntax error at position " + maxSymbolPosition + ". Unexpected token '" + input.get(maxSymbolPosition) + "'");
         } else {
             System.out.println("Sequence accepted");
             parserOutput.generateParsingTreeOutput(this.workingStack);
@@ -86,12 +88,14 @@ public class Parser {
 
             stateOfParsing = "q";
         } else {
-            inputStack.push(baseNonTerminal);
-            workingStack.pop();
-        }
+            if (!inputStack.isEmpty()) {
+                inputStack.push(baseNonTerminal);
+            }
 
-        if(currentSymbolPosition == 1 && stateOfParsing.equals("s")){
-            stateOfParsing = "e";
+            workingStack.pop();
+            if (workingStack.isEmpty()) {
+                stateOfParsing = "e";
+            }
         }
     }
 
@@ -107,6 +111,10 @@ public class Parser {
     private void advance() {
         workingStack.push(inputStack.pop());
         currentSymbolPosition++;
+
+        if(currentSymbolPosition > maxSymbolPosition) {
+            maxSymbolPosition = currentSymbolPosition;
+        }
     }
 
     private void expand() {
